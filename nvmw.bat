@@ -55,6 +55,8 @@ set "NODE_HOME=%NVMW_HOME%%NODE_VERSION%"
 mkdir "%NODE_HOME%"
 set "NODE_EXE_FILE=%NODE_HOME%\node.exe"
 set "NPM_ZIP_FILE=%NODE_HOME%\npm.zip"
+set "NPM_PKG_JSON_URL=https://raw.github.com/joyent/node/%NODE_VERSION%/deps/npm/package.json";
+set "NPM_PKG_JSON_FILE=%NODE_HOME%\package.json";
 
 if not exist "%NODE_EXE_FILE%" (
   :: download node.exe
@@ -66,6 +68,9 @@ if not exist "%NODE_EXE_FILE%" (
   goto install_error
 ) else (
   echo Start install npm
+
+  :: download package.json
+  cscript "%NVMW_HOME%\fget.js" %NPM_PKG_JSON_URL% "%NPM_PKG_JSON_FILE%"
 
   "%NODE_EXE_FILE%" "%NVMW_HOME%\get_npm.js" "%NODE_HOME%" %NODE_VERSION%
   if not exist %NPM_ZIP_FILE% (

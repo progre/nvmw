@@ -3,14 +3,13 @@ var util = require('util'),
     path = require('path'),
     wget = require('./wget');
 
-var NPM_PKG_JSON_URL = 'https://raw.github.com/joyent/node/%s/deps/npm/package.json';
+var NPM_PKG_JSON_FILE = "%s/package.json";
 var BASE_URL = 'http://nodejs.org/dist/npm/npm-%s.zip';
 
 var targetDir = process.argv[2];
 var nodeVersion = process.argv[3];
 
-var pkgUri = util.format(NPM_PKG_JSON_URL, nodeVersion);
-wget(pkgUri, function (filename, pkg) {
+fs.readFile(util.format(NPM_PKG_JSON_FILE, targetDir), function(err, data){
     if (filename === null) {
         console.error('node %s is not include npm', nodeVersion);
         process.exit(1);
