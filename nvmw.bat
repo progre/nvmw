@@ -8,18 +8,24 @@ if not defined PATH_ORG (
   set "PATH_ORG=%PATH%"
 )
 
-if "%1" == "install" (
+if "%1" == "install" if "%2" NEQ "" (
   call :install %2
   if not ERRORLEVEL == 1 call :use %2
-) else if "%1" == "use" (
-  call :use %2
-) else if "%1" == "ls" (
-  call :ls
-) else if "%1" == "uninstall" (
-  call :uninstall %2
-) else (
-  call :help
+  exit /b %ERRORLEVEL%
 )
+if "%1" == "use" if "%2" NEQ "" (
+  call :use %2
+  exit /b %ERRORLEVEL%
+)
+if "%1" == "ls" (
+  call :ls
+  exit /b %ERRORLEVEL%
+)
+if "%1" == "uninstall" if "%2" NEQ "" (
+  call :uninstall %2
+  exit /b %ERRORLEVEL%
+)
+call :help
 exit /b %ERRORLEVEL%
 
 ::===========================================================
